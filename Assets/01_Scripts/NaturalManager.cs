@@ -9,6 +9,7 @@ public class NaturalManager : MonoBehaviour
     public bool _endPattern;
 
     [SerializeField] private GameObject Tornado;
+    [SerializeField] private Wave _wave;
 
     private Earthquake _earthquake;
     private Tornado _tornado;
@@ -39,23 +40,24 @@ public class NaturalManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(2f);
-            int r = Random.Range(0, 3);
+            int r = Random.Range(0, 1000);
             _endPattern = false;
-            switch (r)
+            switch (r % 4)
             {
                 case 0:
                     _earthquake.OnQuake();
-                    Debug.Log("지진이다!!");
                     break;
                 case 1:
-                    Debug.Log("회오리다!!");
                     GameObject t = Instantiate(Tornado, new Vector3(Random.Range(-20, 20), 0), Quaternion.identity);
                     _tornado = t.GetComponent<Tornado>();
                     _tornado.OnTornado();
                     break;
-                default:
-                    Debug.Log("메테오다!!");
+                case 2:
                     _spawnMeteor.OnMeteor();
+                    break;
+                case 3:
+                    Wave w = Instantiate(_wave, new Vector3(200, 200, 0), Quaternion.identity);
+                    w.SetRandomDir();
                     break;
             }
 

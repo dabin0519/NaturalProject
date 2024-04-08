@@ -32,12 +32,7 @@ public class Wave : MonoBehaviour
     }
 
     private void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            SetRandomDir();
-        }
-
+    { 
         if(ActiveMove)
             Move();
     }
@@ -45,6 +40,11 @@ public class Wave : MonoBehaviour
     private void Move()
     {
         transform.position += _moveDir * _moveSpeed * Time.deltaTime;
+
+        if(Vector3.Distance(Vector3.zero, transform.position) > 150f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerStay(Collider other)
